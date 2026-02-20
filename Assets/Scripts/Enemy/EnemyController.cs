@@ -11,20 +11,14 @@ public class EnemyController : MonoBehaviour
 
 	private Vector3 shotVector;
 
-	private readonly Timer shotTimer = new();
-
 	private void Start()
 	{
 		lineRenderer = GetComponent<LineRenderer>();
 		lineRenderer.enabled = false;
-		shotTimer.Start(0.1f);
 		shotVector = headTransform.forward;
 	}
 
-	private void Update()
-	{
-		Shot();
-	}
+	private void Update() => Shot();
 
 	#region Shot
 
@@ -47,12 +41,14 @@ public class EnemyController : MonoBehaviour
 
 		Vector3 to = VectorToPlayer(transform.position, player.transform.position);
 
-		float rotateSpeed = Time.deltaTime * 0.5f;
+		float rotateSpeed = Time.deltaTime * 0.7f;
 		shotVector = Vector3.RotateTowards(shotVector, to, rotateSpeed, 0f);
 		headTransform.rotation = Quaternion.LookRotation(shotVector);
 
 		if (60 > Vector3.Angle(shotVector, to))
+		{
 			RayShot(shotVector);
+		}
 	}
 
 	private async void RayShot(Vector3 vector)
@@ -66,7 +62,7 @@ public class EnemyController : MonoBehaviour
 		{
 			endPoint = hit.point;
 			if (hit.collider.CompareTag("Player"))
-				Debug.Log("Player hit!");
+				hit.collider.GetComponentInParent<RestartSystem>().RestartWithEvent();
 		}
 
 		lineRenderer.SetPosition(0, transform.position);

@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 [SelectionBase]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(RestartSystem))]
 public class PlayerMovement : MonoBehaviour
 {
 	[Header("Jump Settings")]
