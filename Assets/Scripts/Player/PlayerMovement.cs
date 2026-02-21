@@ -32,20 +32,26 @@ public class PlayerMovement : MonoBehaviour
 
 	// Components
 	private Rigidbody rb;
+	private RestartSystem restartSystem;
 
 	private void OnEnable()
 	{
-		jump.action.performed += _ => InputJump();
-		smallJump.action.performed += _ => InputSmallJump();
+		jump.action.performed += OnJump;
+		smallJump.action.performed += OnSmallJump;
 	}
 
 	private void OnDisable()
 	{
-		jump.action.performed -= _ => InputJump();
-		smallJump.action.performed -= _ => InputSmallJump();
+		jump.action.performed -= OnJump;
+		smallJump.action.performed -= OnSmallJump;
 	}
 
-	private void Start() => rb = GetComponent<Rigidbody>();
+	private void Start()
+	{
+		rb = GetComponent<Rigidbody>();
+
+		restartSystem = GetComponent<RestartSystem>();
+	}
 
 	private void FixedUpdate()
 	{
@@ -74,8 +80,15 @@ public class PlayerMovement : MonoBehaviour
 				ChangeStateToFixed(collision.transform);
 				groundedTimer.Start(fixationTime);
 				break;
+			case "Enemy":
+				restartSystem.RestartWithEvent();
+				break;
 		}
 	}
+
+	private void OnJump(InputAction.CallbackContext context) => InputJump();
+
+	private void OnSmallJump(InputAction.CallbackContext context) => InputSmallJump();
 
 	private void CheckSurfaceContact()
 	{

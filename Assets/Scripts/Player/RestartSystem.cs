@@ -15,6 +15,7 @@ public class RestartSystem : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		playerMovement = GetComponent<PlayerMovement>();
 		CameraControl = GetComponent<CameraControl>();
+		Restart();
 	}
 
 	public void RestartWithEvent()
