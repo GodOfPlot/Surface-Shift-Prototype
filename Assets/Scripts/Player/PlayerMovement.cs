@@ -67,6 +67,12 @@ public class PlayerMovement : MonoBehaviour
 		string tag = collision.collider.tag;
 		normal = collision.contacts[0].normal;
 
+		if (tag == "Enemy")
+		{
+			restartSystem.RestartWithEvent();
+			return;
+		}
+
 		if (!startedJumpCheck || smallJUmpActivated)
 			return;
 
@@ -79,9 +85,6 @@ public class PlayerMovement : MonoBehaviour
 			case "Wall":
 				ChangeStateToFixed(collision.transform);
 				groundedTimer.Start(fixationTime);
-				break;
-			case "Enemy":
-				restartSystem.RestartWithEvent();
 				break;
 		}
 	}
