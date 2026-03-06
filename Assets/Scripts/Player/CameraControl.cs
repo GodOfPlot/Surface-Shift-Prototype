@@ -41,4 +41,6 @@ public class CameraControl : MonoBehaviour
 
 		_cameraT.rotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
 	}
+
+	public float SetSensitivity { set => _mouseSensitivity = value; }
 }
